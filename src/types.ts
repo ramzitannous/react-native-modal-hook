@@ -1,3 +1,5 @@
+import React from 'react';
+
 export interface ContextType {
   visible: boolean;
 
@@ -6,4 +8,8 @@ export interface ContextType {
   hide: () => void;
 
   title: string;
+
+  Content: React.FunctionComponent;
+
+  updateContent: (newContent: React.FunctionComponent) => void;
 }

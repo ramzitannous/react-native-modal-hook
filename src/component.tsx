@@ -1,18 +1,17 @@
 import { ModalContextProvider } from './context';
 import React from 'react';
 import { ContextType } from './types';
-import { Text } from 'react-native';
 
 interface ModalProviderProps {
-  RootComponent: React.ElementType<any>;
+  ModalComponent: React.ElementType;
   children: React.ReactNode;
-  rootProps?: any;
+  modalProps?: any;
 }
 
 export const ModalProvider = ({
-  RootComponent,
+  ModalComponent,
   children,
-  rootProps,
+  modalProps,
 }: ModalProviderProps) => {
   const [contextState, setContextState]: [ContextType, any] = React.useState<
     ContextType
@@ -37,18 +36,23 @@ export const ModalProvider = ({
         visible: false,
       })),
     title: '',
+    Content: () => null,
+    updateContent: newContent => {
+      contextState.Content = newContent;
+    },
   });
+  const { Content } = contextState;
 
   return (
     <ModalContextProvider value={contextState}>
       {contextState.visible && (
-        <RootComponent
+        <ModalComponent
           visible={contextState.visible}
           onDismiss={contextState.hide}
-          {...rootProps}
+          {...modalProps}
         >
-          <Text>{'hello'}</Text>
-        </RootComponent>
+          {Content && <Content />}
+        </ModalComponent>
       )}
       {children}
     </ModalContextProvider>
