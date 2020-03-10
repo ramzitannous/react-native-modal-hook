@@ -14,8 +14,10 @@ const ModalContext = React.createContext<ContextType>(initialContext);
 
 export const ModalContextProvider = ModalContext.Provider;
 
-export const useModal = (content: React.FunctionComponent): ContextType => {
+export const useModal = (content?: React.FunctionComponent): ContextType => {
   const context = React.useContext(ModalContext);
-  context.updateContent(content);
+  if (content) {
+    context.updateContent(content);
+  }
   return context;
 };

@@ -3,16 +3,10 @@ import React from 'react';
 import { ContextType } from './types';
 
 interface ModalProviderProps {
-  ModalComponent: React.ElementType;
   children: React.ReactNode;
-  modalProps?: any;
 }
 
-export const ModalProvider = ({
-  ModalComponent,
-  children,
-  modalProps,
-}: ModalProviderProps) => {
+export const ModalProvider = ({ children }: ModalProviderProps) => {
   const [contextState, setContextState]: [ContextType, any] = React.useState<
     ContextType
   >({
@@ -41,20 +35,8 @@ export const ModalProvider = ({
       contextState.Content = newContent;
     },
   });
-  const { Content } = contextState;
 
   return (
-    <ModalContextProvider value={contextState}>
-      {contextState.visible && (
-        <ModalComponent
-          visible={contextState.visible}
-          onDismiss={contextState.hide}
-          {...modalProps}
-        >
-          {Content && <Content />}
-        </ModalComponent>
-      )}
-      {children}
-    </ModalContextProvider>
+    <ModalContextProvider value={contextState}>{children}</ModalContextProvider>
   );
 };
